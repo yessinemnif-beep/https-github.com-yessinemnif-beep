@@ -357,6 +357,115 @@ footer {
   .carousel-stage { height: 460px; }
 }
 
+/* --- Curseur personnalisé (desktop) --- */
+.cursor-dot, .cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+
+.cursor-dot {
+  width: 6px; height: 6px;
+  background: #fff;
+}
+
+.cursor-ring {
+  width: 34px; height: 34px;
+  border: 1px solid rgba(255,255,255,0.7);
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.cursor-ring.grow {
+  width: 64px; height: 64px;
+  background: rgba(255,255,255,0.08);
+}
+
+@media (hover: none), (max-width: 720px) {
+  .cursor-dot, .cursor-ring { display: none; }
+}
+
+/* --- Révélation de texte au scroll (mot par mot) --- */
+.reveal-line {
+  overflow: hidden;
+  display: block;
+}
+
+.reveal-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(110%) rotate(4deg);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--d, 0s);
+}
+
+.reveal-line.in .reveal-word {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
+}
+
+/* --- Magnétisme sur boutons / cartes / nav --- */
+.magnetic {
+  transition: transform 0.15s ease-out;
+}
+
+/* --- Bandeau défilant de compétences --- */
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 16px 0;
+  margin-top: 40px;
+}
+
+.hero .marquee {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  margin-top: 0;
+  z-index: 2;
+}
+
+.marquee-track {
+  display: inline-flex;
+  gap: 40px;
+  animation: scroll-left 22s linear infinite;
+}
+
+.marquee span {
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+}
+
+.marquee span::after {
+  content: '/';
+  margin-left: 40px;
+  color: var(--accent);
+}
+
+@keyframes scroll-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* --- Reveal générique (fade + scale au scroll) --- */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(40px) scale(0.97);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-up.in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
 @media (max-width: 720px) {
   .nav-inner ul { display: none; }
   .hero-content { padding: 36px 28px; }

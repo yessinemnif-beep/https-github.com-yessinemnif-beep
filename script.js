@@ -166,3 +166,98 @@ document.querySelectorAll('.section, .card').forEach(el => {
   el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
   observer.observe(el);
 });
+
+// ---------- Curseur personnalisé (magnétique) ----------
+const cursorDot = document.getElementById('cursorDot');
+const cursorRing = document.getElementById('cursorRing');
+let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+const hasFinePointer = window.matchMedia('(hover: hover)').matches;
+
+if (hasFinePointer && cursorDot && cursorRing) {
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursorDot.style.left = mouseX + 'px';
+    cursorDot.style.top = mouseY + 'px';
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.18;
+    ringY += (mouseY - ringY) * 0.18;
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .card, .project-card, .magnetic').forEach(el => {
+    el.addEventListener('mouseenter', () => cursorRing.classList.add('grow'));
+    el.addEventListener('mouseleave', () => cursorRing.classList.remove('grow'));
+  });
+
+  document.querySelectorAll('.magnetic').forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const relX = e.clientX - rect.left - rect.width / 2;
+      const relY = e.clientY - rect.top - rect.height / 2;
+      el.style.transform = `translate(${relX * 0.35}px, ${relY * 0.35}px)`;
+    });
+    el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+  });
+}
+
+// ---------- Révélation de texte mot par mot (hero) ----------
+function splitIntoWords(el) {
+  const text = el.textContent.trim();
+  el.innerHTML = '';
+  const wrapper = document.createElement('span');
+  wrapper.className = 'reveal-line';
+  text.split(' ').forEach((word, i) => {
+    const span = document.createElement('span');
+    span.className = 'reveal-word';
+    span.style.setProperty('--d', (i * 0.05) + 's');
+    span.textContent = word + '\u00A0';
+    wrapper.appendChild(span);
+  });
+  el.appendChild(wrapper);
+  return wrapper;
+}
+
+const heroTitleEl = document.getElementById('heroTitle');
+const heroSubtitleEl = document.getElementById('heroSubtitle');
+const heroLines = [];
+if (heroTitleEl) heroLines.push(splitIntoWords(heroTitleEl));
+if (heroSubtitleEl) heroLines.push(splitIntoWords(heroSubtitleEl));
+
+requestAnimationFrame(() => {
+  heroLines.forEach((line, i) => {
+    setTimeout(() => line.classList.add('in'), i * 200 + 150);
+  });
+});
+
+// ---------- Reveal au scroll pour les titres de section ----------
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.reveal-up').forEach(el => revealObserver.observe(el));
+
+// ---------- Parallax des orbes selon la position de la souris ----------
+if (hasFinePointer) {
+  const heroEl = document.querySelector('.hero');
+  if (heroEl) {
+    heroEl.addEventListener('mousemove', (e) => {
+      const { innerWidth, innerHeight } = window;
+      const px = (e.clientX / innerWidth - 0.5);
+      const py = (e.clientY / innerHeight - 0.5);
+      document.querySelectorAll('.orb').forEach((orb, i) => {
+        const depth = (i + 1) * 18;
+        orb.style.translate = `${px * depth}px ${py * depth}px`;
+      });
+    });
+  }
+}

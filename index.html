@@ -8,6 +8,9 @@
 </head>
 <body>
 
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
 <canvas id="bg"></canvas>
 
 <nav class="navbar">
@@ -28,9 +31,15 @@
 <header id="presentation" class="hero">
   <div class="hero-content glass tilt">
     <p class="eyebrow">Portfolio</p>
-    <h1>Yessine Mnif</h1>
-    <p class="subtitle">Étudiant ingénieur en 3ème année à Polytech Nantes, spécialisé en génie électrique, avec un fort intérêt pour les systèmes embarqués et l'électronique. Actuellement à la recherche d'un stage de fin d'études (PFE) de 6 mois.</p>
-    <a href="#projets" class="btn">Voir mes projets</a>
+    <h1 id="heroTitle">Yessine Mnif</h1>
+    <p class="subtitle" id="heroSubtitle">Étudiant ingénieur en 3ème année à Polytech Nantes, spécialisé en génie électrique, avec un fort intérêt pour les systèmes embarqués et l'électronique. Actuellement à la recherche d'un stage de fin d'études (PFE) de 6 mois.</p>
+    <a href="#projets" class="btn magnetic">Voir mes projets</a>
+  </div>
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>Python</span><span>C</span><span>C++</span><span>STM32CubeIDE</span><span>Keil uVision</span><span>KiCad</span><span>MATLAB</span><span>Systèmes embarqués</span>
+      <span>Python</span><span>C</span><span>C++</span><span>STM32CubeIDE</span><span>Keil uVision</span><span>KiCad</span><span>MATLAB</span><span>Systèmes embarqués</span>
+    </div>
   </div>
   <div class="orb orb1"></div>
   <div class="orb orb2"></div>
@@ -38,7 +47,7 @@
 </header>
 
 <section id="formation" class="section">
-  <h2>Formation</h2>
+  <h2 class="reveal-up">Formation</h2>
   <div class="grid">
     <div class="card glass tilt">
       <h3>Polytech Nantes (Saint-Nazaire)</h3>
@@ -59,7 +68,7 @@
 </section>
 
 <section id="projets" class="section">
-  <h2>Projets</h2>
+  <h2 class="reveal-up">Projets</h2>
   <div class="carousel-3d">
     <button class="carousel-btn prev" aria-label="Projet précédent">&#10094;</button>
     <div class="carousel-stage">
@@ -107,7 +116,7 @@
 </section>
 
 <section id="experiences" class="section">
-  <h2>Expériences</h2>
+  <h2 class="reveal-up">Expériences</h2>
   <div class="grid">
     <div class="card glass tilt">
       <h3>Stagiaire — ACTIA Engineering Services</h3>
@@ -123,7 +132,7 @@
 </section>
 
 <section id="associations" class="section">
-  <h2>Associations</h2>
+  <h2 class="reveal-up">Associations</h2>
   <div class="grid">
     <div class="card glass tilt">
       <h3>Fablab ENIT</h3>
@@ -133,7 +142,7 @@
 </section>
 
 <section id="competences" class="section">
-  <h2>Compétences</h2>
+  <h2 class="reveal-up">Compétences</h2>
   <div class="grid">
     <div class="card glass tilt">
       <h3>Programmation</h3>
@@ -155,7 +164,7 @@
 </section>
 
 <section id="langues" class="section">
-  <h2>Langues</h2>
+  <h2 class="reveal-up">Langues</h2>
   <div class="grid">
     <div class="card glass tilt">
       <h3>Français</h3>
@@ -173,7 +182,7 @@
 </section>
 
 <section id="contact" class="section">
-  <h2>Contact</h2>
+  <h2 class="reveal-up">Contact</h2>
   <div class="card glass contact-card">
     <p>Envie d'échanger ? Écrivez-moi.</p>
     <a href="mailto:yessine.mnif@etudiant-enit.utm.tn" class="btn">yessine.mnif@etudiant-enit.utm.tn</a>

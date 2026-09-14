@@ -83,73 +83,120 @@ document.querySelectorAll('.tilt').forEach(el => {
 });
 
 
-// ---------- Carrousel 3D de projets (effet coverflow) ----------
+// ---------- Carrousel 3D "manège" interactif (glisser pour tourner) ----------
 const track = document.querySelector('.carousel-track');
-const cards = document.querySelectorAll('.project-card');
+const cards = Array.from(document.querySelectorAll('.project-card'));
+const stage = document.getElementById('carouselStage');
 const dotsWrap = document.querySelector('.carousel-dots');
-let current = 0;
+const n = cards.length;
+const angleStep = 360 / n;
+const radius = 460;
+
+// Placer chaque carte sur le cercle 3D
+cards.forEach((card, i) => {
+  card.style.transform = `translate(-50%, -50%) rotateY(${i * angleStep}deg) translateZ(${radius}px)`;
+});
 
 cards.forEach((_, i) => {
   const dot = document.createElement('div');
   dot.className = 'dot' + (i === 0 ? ' active' : '');
-  dot.addEventListener('click', () => goTo(i));
+  dot.addEventListener('click', () => spinTo(-i * angleStep));
   dotsWrap.appendChild(dot);
 });
 const dots = document.querySelectorAll('.dot');
 
-function renderCarousel() {
+let rotation = 0;      // rotation actuelle du manège
+let velocity = 0;      // vitesse pour l'inertie
+let isDragging = false;
+let startX = 0;
+let startRotation = 0;
+let lastX = 0;
+let lastTime = 0;
+
+function applyRotation(r, withTransition = false) {
+  track.style.transition = withTransition ? 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)' : 'none';
+  track.style.transform = `rotateY(${r}deg)`;
+  updateCardFocus(r);
+}
+
+function updateCardFocus(r) {
+  let activeIndex = 0;
+  let smallestDiff = 360;
   cards.forEach((card, i) => {
-    const offset = i - current;
-    const abs = Math.abs(offset);
-
-    let x = offset * 230;
-    let z = -abs * 260;
-    let rotY = offset * -35;
-    let opacity = 1;
-    let blur = 0;
-
-    if (abs > 2) {
-      opacity = 0;
-    } else if (abs === 2) {
-      opacity = 0.35;
-      blur = 2;
-    }
-
-    card.style.transform = `translate(-50%, -50%) translateX(${x}px) translateZ(${z}px) rotateY(${rotY}deg)`;
-    card.style.opacity = opacity;
-    card.style.filter = blur ? `blur(${blur}px)` : 'none';
-    card.style.zIndex = 100 - abs;
-    card.style.pointerEvents = abs === 0 ? 'auto' : (abs <= 2 ? 'auto' : 'none');
+    const cardAngle = (i * angleStep + r) % 360;
+    let diff = Math.abs(((cardAngle + 180) % 360) - 180);
+    const t = Math.max(0, 1 - diff / 130);
+    card.style.opacity = 0.25 + t * 0.75;
+    card.style.filter = diff > 60 ? `blur(${Math.min(3, (diff - 60) / 40)}px)` : 'none';
+    if (diff < smallestDiff) { smallestDiff = diff; activeIndex = i; }
   });
-  dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  dots.forEach((d, i) => d.classList.toggle('active', i === activeIndex));
 }
 
-function goTo(i) {
-  current = (i + cards.length) % cards.length;
-  renderCarousel();
+function spinTo(targetRotation) {
+  rotation = targetRotation;
+  applyRotation(rotation, true);
 }
 
-document.querySelector('.carousel-btn.prev').addEventListener('click', () => goTo(current - 1));
-document.querySelector('.carousel-btn.next').addEventListener('click', () => goTo(current + 1));
+function nearestSnap(r) {
+  return Math.round(r / angleStep) * angleStep;
+}
 
-cards.forEach((card, i) => {
+document.querySelector('.carousel-btn.prev').addEventListener('click', () => spinTo(nearestSnap(rotation) + angleStep));
+document.querySelector('.carousel-btn.next').addEventListener('click', () => spinTo(nearestSnap(rotation) - angleStep));
+
+cards.forEach(card => {
   card.addEventListener('click', () => {
-    if (i !== current) goTo(i);
+    if (isDragging) return;
+    const cardBaseAngle = parseFloat(card.style.transform.match(/rotateY\(([-\d.]+)deg\)/)[1]);
+    spinTo(nearestSnap(-cardBaseAngle));
   });
 });
 
-renderCarousel();
+function pointerDown(x) {
+  isDragging = true;
+  startX = x;
+  lastX = x;
+  lastTime = performance.now();
+  startRotation = rotation;
+  velocity = 0;
+  stage.classList.add('grabbing');
+  track.style.transition = 'none';
+}
 
-// swipe support on touch devices
-let touchStartX = 0;
-document.querySelector('.carousel-stage').addEventListener('touchstart', (e) => {
-  touchStartX = e.touches[0].clientX;
-}, { passive: true });
-document.querySelector('.carousel-stage').addEventListener('touchend', (e) => {
-  const diff = e.changedTouches[0].clientX - touchStartX;
-  if (diff > 50) goTo(current - 1);
-  else if (diff < -50) goTo(current + 1);
-}, { passive: true });
+function pointerMove(x) {
+  if (!isDragging) return;
+  const now = performance.now();
+  const dt = Math.max(now - lastTime, 1);
+  const dx = x - lastX;
+  velocity = (dx / dt) * 16; // px de delta par frame ~16ms
+  rotation = startRotation + (x - startX) * 0.35;
+  applyRotation(rotation, false);
+  lastX = x;
+  lastTime = now;
+}
+
+function pointerUp() {
+  if (!isDragging) return;
+  isDragging = false;
+  stage.classList.remove('grabbing');
+  // inertie : on projette la rotation selon la vélocité puis on capture sur la carte la plus proche
+  const momentum = velocity * 6;
+  const target = nearestSnap(rotation + momentum);
+  spinTo(target);
+}
+
+stage.addEventListener('mousedown', (e) => { pointerDown(e.clientX); e.preventDefault(); });
+window.addEventListener('mousemove', (e) => pointerMove(e.clientX));
+window.addEventListener('mouseup', pointerUp);
+
+stage.addEventListener('touchstart', (e) => pointerDown(e.touches[0].clientX), { passive: true });
+stage.addEventListener('touchmove', (e) => pointerMove(e.touches[0].clientX), { passive: true });
+stage.addEventListener('touchend', pointerUp);
+
+applyRotation(0, false);
+
+
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {

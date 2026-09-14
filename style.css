@@ -103,8 +103,8 @@ body {
 }
 
 .hero-photo {
-  width: 100px;
-  height: 100px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--glass-border);

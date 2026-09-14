@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Votre Nom | Portfolio</title>
+<title>Yessine Mnif | Portfolio</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,12 +12,13 @@
 
 <nav class="navbar">
   <div class="nav-inner glass">
-    <span class="logo">VN.</span>
+    <span class="logo">YM.</span>
     <ul>
       <li><a href="#presentation">Présentation</a></li>
       <li><a href="#formation">Formation</a></li>
       <li><a href="#projets">Projets</a></li>
       <li><a href="#experiences">Expériences</a></li>
+      <li><a href="#competences">Compétences</a></li>
       <li><a href="#associations">Associations</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -27,8 +28,8 @@
 <header id="presentation" class="hero">
   <div class="hero-content glass tilt">
     <p class="eyebrow">Portfolio</p>
-    <h1>Votre Nom</h1>
-    <p class="subtitle">Votre titre / spécialité — remplacez ce texte par votre présentation.</p>
+    <h1>Yessine Mnif</h1>
+    <p class="subtitle">Étudiant ingénieur en 3ème année à Polytech Nantes, spécialisé en génie électrique, avec un fort intérêt pour les systèmes embarqués et l'électronique. Actuellement à la recherche d'un stage de fin d'études (PFE) de 6 mois.</p>
     <a href="#projets" class="btn">Voir mes projets</a>
   </div>
   <div class="orb orb1"></div>
@@ -40,48 +41,83 @@
   <h2>Formation</h2>
   <div class="grid">
     <div class="card glass tilt">
-      <h3>Diplôme / École</h3>
-      <p class="meta">Année — Année</p>
-      <p>Description courte de la formation.</p>
+      <h3>Polytech Nantes (Saint-Nazaire)</h3>
+      <p class="meta">2026 — 2027</p>
+      <p>Génie électrique : formation en électronique, électronique de puissance, automatique et systèmes embarqués.</p>
     </div>
     <div class="card glass tilt">
-      <h3>Diplôme / École</h3>
-      <p class="meta">Année — Année</p>
-      <p>Description courte de la formation.</p>
+      <h3>École Nationale d'Ingénieurs de Tunis</h3>
+      <p class="meta">2024 — 2027</p>
+      <p>Génie électrique : formation en électronique, électronique de puissance, automatique et systèmes embarqués.</p>
+    </div>
+    <div class="card glass tilt">
+      <h3>Institut Préparatoire aux Études d'Ingénieurs de Sfax</h3>
+      <p class="meta">2022 — 2024</p>
+      <p>Classe préparatoire scientifique en mathématiques et physique. Classé 478/~2000 au concours national d'entrée aux écoles d'ingénieurs.</p>
     </div>
   </div>
 </section>
 
 <section id="projets" class="section">
   <h2>Projets</h2>
-  <div class="grid">
-    <div class="card glass tilt">
-      <h3>Nom du projet</h3>
-      <p>Description du projet, technologies utilisées, résultat obtenu.</p>
+  <div class="carousel-3d">
+    <button class="carousel-btn prev" aria-label="Projet précédent">&#10094;</button>
+    <div class="carousel-stage">
+      <div class="carousel-track">
+        <article class="project-card glass" data-index="0">
+          <img class="project-photo" src="images/projet-1.jpg" alt="Visualiseur AR à commande sans fil" onerror="this.style.display='none'">
+          <div class="project-body">
+            <h3>Visualiseur AR à commande sans fil</h3>
+            <p>Système de réalité augmentée avec écran LCD 0.66" et collimation optique projetant un menu flottant dans le champ de vision. Deux cartes ESP communiquent en bidirectionnel via ESP-NOW pour une navigation à faible latence, contrôlée par une télécommande sans fil.</p>
+          </div>
+        </article>
+        <article class="project-card glass" data-index="1">
+          <img class="project-photo" src="images/projet-2.jpg" alt="Générateur de signaux connecté" onerror="this.style.display='none'">
+          <div class="project-body">
+            <h3>Générateur de signaux connecté (STM32 & ESP8266)</h3>
+            <p>Générateur de signal sinusoïdal de précision sur STM32 (Keil uVision), avec contrôle de fréquence par ADC ou à distance en Wi-Fi (ESP8266), plus sortie de données série pour visualisation et analyse de fréquence en temps réel sur PC.</p>
+          </div>
+        </article>
+        <article class="project-card glass" data-index="2">
+          <img class="project-photo" src="images/projet-3.jpg" alt="Barrière infrarouge et système de comptage" onerror="this.style.display='none'">
+          <div class="project-body">
+            <h3>Barrière infrarouge et système de comptage</h3>
+            <p>Carte à base d'émetteur-récepteur infrarouge pour la détection automatique d'objets, déclenchant une sirène et incrémentant un compteur numérique à chaque interruption du faisceau. Conçu pour un comptage fiable en environnement industriel.</p>
+          </div>
+        </article>
+        <article class="project-card glass" data-index="3">
+          <img class="project-photo" src="images/projet-4.jpg" alt="Plateforme IoT de surveillance électrique" onerror="this.style.display='none'">
+          <div class="project-body">
+            <h3>Plateforme IoT de surveillance électrique</h3>
+            <p>Plateforme IoT complète surveillant des compteurs relais POWR320D et des analyseurs Sentron PAC via MQTT/Modbus. Node-RED pour l'ingestion des données, InfluxDB pour le stockage, FastAPI sur Raspberry Pi 5 (accès local/distant), et une application Flutter pour le suivi en direct et le provisioning des appareils par QR code.</p>
+          </div>
+        </article>
+        <article class="project-card glass" data-index="4">
+          <img class="project-photo" src="images/projet-5.jpg" alt="Analyse multimodale pour la classification de la douleur" onerror="this.style.display='none'">
+          <div class="project-body">
+            <h3>Analyse multimodale pour la classification de la douleur</h3>
+            <p>Système de reconnaissance automatique de la douleur pour patients non communicants, basé sur des repères faciaux et des signaux physiologiques. Pipeline en trois étapes Random Forest / LightGBM avec fusion tardive et normalisation intra-sujet.</p>
+          </div>
+        </article>
+      </div>
     </div>
-    <div class="card glass tilt">
-      <h3>Nom du projet</h3>
-      <p>Description du projet, technologies utilisées, résultat obtenu.</p>
-    </div>
-    <div class="card glass tilt">
-      <h3>Nom du projet</h3>
-      <p>Description du projet, technologies utilisées, résultat obtenu.</p>
-    </div>
+    <button class="carousel-btn next" aria-label="Projet suivant">&#10095;</button>
   </div>
+  <div class="carousel-dots"></div>
 </section>
 
 <section id="experiences" class="section">
   <h2>Expériences</h2>
   <div class="grid">
     <div class="card glass tilt">
-      <h3>Poste — Entreprise</h3>
-      <p class="meta">Mois Année — Mois Année</p>
-      <p>Missions et réalisations principales.</p>
+      <h3>Stagiaire — ACTIA Engineering Services</h3>
+      <p class="meta">2026</p>
+      <p>Stage technique axé sur la conception et le déploiement d'une plateforme IoT de bout en bout pour la surveillance électrique en temps réel, consolidant les connaissances en protocoles de communication industriels et architecture réseau à distance.</p>
     </div>
     <div class="card glass tilt">
-      <h3>Poste — Entreprise</h3>
-      <p class="meta">Mois Année — Mois Année</p>
-      <p>Missions et réalisations principales.</p>
+      <h3>Stagiaire — STEG</h3>
+      <p class="meta">2025</p>
+      <p>Stage technique axé sur la maintenance préventive et corrective des infrastructures électriques, consolidant les connaissances en normes de sécurité et surveillance des équipements haute tension.</p>
     </div>
   </div>
 </section>
@@ -90,8 +126,48 @@
   <h2>Associations</h2>
   <div class="grid">
     <div class="card glass tilt">
-      <h3>Nom de l'association</h3>
-      <p>Rôle et activités.</p>
+      <h3>Fablab ENIT</h3>
+      <p>Membre actif (2024–2025) et actuellement membre senior. 1ère place lors d'une compétition nationale de robotique.</p>
+    </div>
+  </div>
+</section>
+
+<section id="competences" class="section">
+  <h2>Compétences</h2>
+  <div class="grid">
+    <div class="card glass tilt">
+      <h3>Programmation</h3>
+      <p>Python, C, C++</p>
+    </div>
+    <div class="card glass tilt">
+      <h3>Développement & IDE</h3>
+      <p>STM32CubeIDE, Keil uVision, ModelSim, Vivado</p>
+    </div>
+    <div class="card glass tilt">
+      <h3>Conception & Simulation</h3>
+      <p>KiCad, EAGLE, PSPICE, LTspice, PSIM, PVsyst</p>
+    </div>
+    <div class="card glass tilt">
+      <h3>Modélisation & Calcul</h3>
+      <p>MATLAB, SolidWorks</p>
+    </div>
+  </div>
+</section>
+
+<section id="langues" class="section">
+  <h2>Langues</h2>
+  <div class="grid">
+    <div class="card glass tilt">
+      <h3>Français</h3>
+      <p>C1</p>
+    </div>
+    <div class="card glass tilt">
+      <h3>Anglais</h3>
+      <p>B2</p>
+    </div>
+    <div class="card glass tilt">
+      <h3>Arabe</h3>
+      <p>Langue maternelle</p>
     </div>
   </div>
 </section>
@@ -100,16 +176,13 @@
   <h2>Contact</h2>
   <div class="card glass contact-card">
     <p>Envie d'échanger ? Écrivez-moi.</p>
-    <a href="mailto:votre.email@exemple.com" class="btn">votre.email@exemple.com</a>
-    <div class="socials">
-      <a href="#">LinkedIn</a>
-      <a href="#">GitHub</a>
-    </div>
+    <a href="mailto:yessine.mnif@etudiant-enit.utm.tn" class="btn">yessine.mnif@etudiant-enit.utm.tn</a>
+    <p class="meta" style="margin-top:16px;">+33 06 10 79 46 73 &nbsp;·&nbsp; Saint-Nazaire, France</p>
   </div>
 </section>
 
 <footer>
-  <p>&copy; 2026 Votre Nom</p>
+  <p>&copy; 2026 Yessine Mnif</p>
 </footer>
 
 <script src="script.js"></script>

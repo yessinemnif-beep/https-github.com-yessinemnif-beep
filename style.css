@@ -257,7 +257,106 @@ footer {
   font-size: 13px;
 }
 
-/* --- Responsive --- */
+/* --- Carrousel 3D de projets --- */
+.carousel-3d {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.carousel-stage {
+  flex: 1;
+  position: relative;
+  height: 420px;
+  perspective: 1400px;
+  overflow: hidden;
+}
+
+.carousel-track {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.project-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 320px;
+  overflow: hidden;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s ease, filter 0.7s ease;
+  cursor: pointer;
+}
+
+.project-photo {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.project-body {
+  padding: 22px 24px;
+}
+
+.project-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.project-card p {
+  color: var(--text-dim);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.carousel-btn {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px);
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.carousel-btn:hover {
+  background: rgba(255,255,255,0.14);
+  transform: scale(1.08);
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--glass-border);
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.dot.active {
+  background: var(--accent);
+  transform: scale(1.3);
+}
+
+@media (max-width: 720px) {
+  .project-card { width: 240px; }
+  .carousel-stage { height: 460px; }
+}
+
 @media (max-width: 720px) {
   .nav-inner ul { display: none; }
   .hero-content { padding: 36px 28px; }

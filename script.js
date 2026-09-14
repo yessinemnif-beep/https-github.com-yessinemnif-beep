@@ -82,7 +82,75 @@ document.querySelectorAll('.tilt').forEach(el => {
   });
 });
 
-// ---------- Fade-in au scroll pour les sections ----------
+
+// ---------- Carrousel 3D de projets (effet coverflow) ----------
+const track = document.querySelector('.carousel-track');
+const cards = document.querySelectorAll('.project-card');
+const dotsWrap = document.querySelector('.carousel-dots');
+let current = 0;
+
+cards.forEach((_, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'dot' + (i === 0 ? ' active' : '');
+  dot.addEventListener('click', () => goTo(i));
+  dotsWrap.appendChild(dot);
+});
+const dots = document.querySelectorAll('.dot');
+
+function renderCarousel() {
+  cards.forEach((card, i) => {
+    const offset = i - current;
+    const abs = Math.abs(offset);
+
+    let x = offset * 230;
+    let z = -abs * 260;
+    let rotY = offset * -35;
+    let opacity = 1;
+    let blur = 0;
+
+    if (abs > 2) {
+      opacity = 0;
+    } else if (abs === 2) {
+      opacity = 0.35;
+      blur = 2;
+    }
+
+    card.style.transform = `translate(-50%, -50%) translateX(${x}px) translateZ(${z}px) rotateY(${rotY}deg)`;
+    card.style.opacity = opacity;
+    card.style.filter = blur ? `blur(${blur}px)` : 'none';
+    card.style.zIndex = 100 - abs;
+    card.style.pointerEvents = abs === 0 ? 'auto' : (abs <= 2 ? 'auto' : 'none');
+  });
+  dots.forEach((d, i) => d.classList.toggle('active', i === current));
+}
+
+function goTo(i) {
+  current = (i + cards.length) % cards.length;
+  renderCarousel();
+}
+
+document.querySelector('.carousel-btn.prev').addEventListener('click', () => goTo(current - 1));
+document.querySelector('.carousel-btn.next').addEventListener('click', () => goTo(current + 1));
+
+cards.forEach((card, i) => {
+  card.addEventListener('click', () => {
+    if (i !== current) goTo(i);
+  });
+});
+
+renderCarousel();
+
+// swipe support on touch devices
+let touchStartX = 0;
+document.querySelector('.carousel-stage').addEventListener('touchstart', (e) => {
+  touchStartX = e.touches[0].clientX;
+}, { passive: true });
+document.querySelector('.carousel-stage').addEventListener('touchend', (e) => {
+  const diff = e.changedTouches[0].clientX - touchStartX;
+  if (diff > 50) goTo(current - 1);
+  else if (diff < -50) goTo(current + 1);
+}, { passive: true });
+
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
